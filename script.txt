@@ -1,0 +1,13 @@
+#!/bin/bash
+exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
+cd /home/ubuntu/
+sudo apt update -y
+sudo apt install nodejs -y
+sudo apt install npm -y
+mkdir -p /home/ubuntu/.ssh
+ssh-keyscan -t rsa github.com > /home/ubuntu/.ssh/known_hosts
+git clone https://github.com/singhsanket143/API_Gateway.git
+cd API_Gateway
+sudo npm install
+# start the app
+sudo npx pm2 start index.js 
